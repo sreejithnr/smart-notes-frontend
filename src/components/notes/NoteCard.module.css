@@ -1,0 +1,36 @@
+.noteCard_wrapper {
+  padding: 16px;
+  border: 1px solid;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.noteContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.note_title {
+  font-family: cursive;
+}
+
+.note_date {
+    font-family: monospace;
+    font-style: italic;
+}
+
+.note_short {
+      white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 150px;
+    overflow: hidden;
+    margin: 10px 0px 0px 0px;
+}
+
+.actionItems {
+  margin-top: 10px;
+  display: flex;
+  gap: 1rem;
+}
