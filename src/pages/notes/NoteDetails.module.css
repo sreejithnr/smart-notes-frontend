@@ -1,0 +1,22 @@
+.notesContainer {
+}
+
+.contentOuter {
+  margin: 16px;
+  padding: 16px;
+  border: 2px solid lightblue;
+}
+
+.content {
+  margin-top: 8px;
+  padding: 8px;
+  border: 2px solid lightblue;
+  white-space: pre-wrap;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: right;
+  grid-gap: 10px;
+  margin-top: 16px;
+}

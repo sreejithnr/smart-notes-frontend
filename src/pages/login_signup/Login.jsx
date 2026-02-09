@@ -2,9 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import MuiInput from "../../components/common/MuiInput";
 import Button from "@mui/material/Button";
 import Styles from "./login_signup.module.css";
-import axios from "axios";
 import axiosClient from "../../api/axiosClient";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function Login() {
@@ -19,9 +18,8 @@ export default function Login() {
   });
 
   useEffect(() => {
-    console.log(user);
     if (user) {
-      navigate("/dashboard");
+      navigate("/app");
     }
   }, [user]);
 
@@ -52,20 +50,17 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !password || errors.email || errors.password) {
-      alert("Fix validation errors");
-      return;
-    }
-    // AUTH API CALL HERE
-
     try {
       const res = await axiosClient.post("/auth/login", {
-        mailId: email,
-        password,
+        // mailId: email,
+        // password
+
+        mailId: "ammu@gmail.com",
+        password: "qwertyuiop",
       });
 
       login(res.data.user, res.data.token);
-      navigate("/dashboard");
+      navigate("/app");
     } catch (err) {
       console.log(err.response?.data);
       alert("Invalid email or password");
@@ -108,6 +103,9 @@ export default function Login() {
                 Login
               </Button>
             </form>
+            <Link to={"/signup"} className={Styles.navLink}>
+              Signup
+            </Link>
           </div>
           <div className={Styles.footer}></div>
         </div>

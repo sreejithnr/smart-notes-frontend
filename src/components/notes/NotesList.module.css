@@ -1,0 +1,21 @@
+.grid {
+  display: grid;
+  gap: 16px;
+  padding: 16px;
+
+  /* MAGIC LINE */
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+}
+
+.loaderWrapper {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bottomLoader {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+}

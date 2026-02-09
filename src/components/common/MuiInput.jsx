@@ -7,6 +7,10 @@ const MuiInput = ({
   onChange,
   error = false,
   helperText = "",
+  multiline = false,
+  rows, // optional row count for textarea
+  name,
+  sx = {},
 }) => {
   return (
     <TextField
@@ -16,6 +20,12 @@ const MuiInput = ({
       onChange={onChange}
       error={error}
       helperText={helperText}
+      multiline={multiline}
+      rows={rows}
+      name={name}
+      fullWidth
+      variant="outlined"
+      sx={sx}
     />
   );
 };

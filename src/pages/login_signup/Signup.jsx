@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import MuiInput from "../../components/common/MuiInput";
 import Button from "@mui/material/Button";
 import Styles from "./login_signup.module.css";
+import axiosClient from "../../api/axiosClient";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [form, setForm] = useState({
@@ -19,6 +21,7 @@ export default function Signup() {
   });
 
   const validateEmail = (val) => /\S+@\S+\.\S+/.test(val);
+  const navigate = useNavigate();
 
   const handleChange = (field, value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
@@ -40,7 +43,7 @@ export default function Signup() {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (
@@ -52,7 +55,18 @@ export default function Signup() {
     }
 
     // SIGNUP API CALL HERE
-    console.log("Signup submitted:", form);
+    try {
+      const res = await axiosClient.post("/auth/signup", {
+        name: form.name,
+        mailId: form.email,
+        password: form.password,
+      });
+
+      navigate("/");
+    } catch (err) {
+      console.log(err.response?.data);
+      alert("Something went wrong");
+    }
   };
 
   return (
@@ -106,6 +120,9 @@ export default function Signup() {
                 Signup
               </Button>
             </form>
+            <Link to={"/"} className={Styles.navLink}>
+              Login
+            </Link>
           </div>
           <div className={Styles.footer}></div>
         </div>

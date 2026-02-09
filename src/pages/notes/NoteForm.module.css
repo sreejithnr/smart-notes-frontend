@@ -1,0 +1,14 @@
+.noteForm_container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin: 20px 10px 10px 10px;
+}
+
+.noteForm_fields {
+  margin-top: 16px;
+}
+
+.button_wrapper {
+  text-align: right;
+}
