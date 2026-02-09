@@ -21,7 +21,7 @@ const Home = () => {
           Welcome 👋
         </Typography>
         <Typography color="text.secondary">
-          What would you like to use today?
+          What would you like to use today??
         </Typography>
       </Box>
 
