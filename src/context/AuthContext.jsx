@@ -1,9 +1,26 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
+import axiosClient from "../api/axiosClient";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      try {
+        const res = await axiosClient.get("/auth/bypass", token);
+        setUser(res.data);
+      } catch (err) {
+        localStorage.removeItem("token");
+        setUser(null);
+      }
+    };
+    checkAuth();
+  }, []);
 
   const login = (userData, token) => {
     localStorage.setItem("token", token);
