@@ -4,6 +4,7 @@ import NoteDetails from "../pages/notes/NoteDetails";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import NoteForm from "../pages/notes/NoteForm";
+import AppTopBar from "../components/common/AppTopBar";
 
 const AppLayout = () => {
   const navigate = useNavigate();
@@ -26,6 +27,7 @@ const AppLayout = () => {
 
   return (
     <>
+      <AppTopBar />
       {/* MAIN CONTENT */}
       <Outlet />
 

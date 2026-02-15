@@ -27,9 +27,15 @@ export const AuthProvider = ({ children }) => {
     setUser(userData);
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await axiosClient.post("/auth/logout");
+    } catch (err) {
+      console.log(err);
+    }
     localStorage.removeItem("token");
     setUser(null);
+    window.location.href = "/";
   };
 
   return (
