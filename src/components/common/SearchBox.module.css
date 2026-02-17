@@ -1,0 +1,15 @@
+.searchBox_wrappper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 6px 10px;
+  height: 30px;
+  margin: 16px 16px 0px 16px;
+}
+
+.search {
+  border: none;
+  outline: none;
+  flex: 1;
+}

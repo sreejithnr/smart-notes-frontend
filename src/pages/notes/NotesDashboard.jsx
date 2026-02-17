@@ -6,6 +6,8 @@ import SpeedDialAction from "@mui/material/SpeedDialAction";
 import AddIcon from "@mui/icons-material/Add";
 import MicIcon from "@mui/icons-material/Mic";
 import EditIcon from "@mui/icons-material/Edit";
+import SearchBox from "../../components/common/SearchBox";
+import { useState } from "react";
 
 const NotesDashboard = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
@@ -13,13 +15,20 @@ const NotesDashboard = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
+  const [searchTerm, setSearchTerm] = useState("");
   const shouldShowList = !isMobile || !isNoteOpen;
+
+  const style = { display: "flex", justifyContent: "flex-end" };
+
   return (
     <>
-      <div>NotesDashboard</div>
-
+      {shouldShowList && (
+        <div style={!isMobile ? style : null}>
+          <SearchBox value={searchTerm} onSearch={setSearchTerm} />
+        </div>
+      )}
       <div>
-        {shouldShowList && <NotesList />}
+        {shouldShowList && <NotesList searchTerm={searchTerm} />}
         {isMobile && <Outlet />}
       </div>
       <div>

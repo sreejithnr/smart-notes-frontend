@@ -7,26 +7,28 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import CircularLoader from "../common/CicularLoader";
 
 /* ---------------- FETCH FUNCTION ---------------- */
-const fetchNotes = async ({ pageParam = 1, userId }) => {
+const fetchNotes = async ({ pageParam = 1, userId, searchTerm }) => {
   const res = await axiosClient.get("/todo", {
     params: {
       userId,
       page: pageParam,
       limit: 6,
+      search: searchTerm || "",
     },
   });
   return res.data; // { notes, nextPage, hasMore }
 };
 
 /* ---------------- COMPONENT ---------------- */
-const NotesList = () => {
+const NotesList = ({ searchTerm }) => {
   const { user } = useContext(AuthContext);
   const bottomRef = useRef(null);
 
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } =
     useInfiniteQuery({
-      queryKey: ["notes", user?._id],
-      queryFn: ({ pageParam }) => fetchNotes({ pageParam, userId: user._id }),
+      queryKey: ["notes", user?._id, searchTerm],
+      queryFn: ({ pageParam }) =>
+        fetchNotes({ pageParam, userId: user._id, searchTerm }),
       getNextPageParam: (lastPage) =>
         lastPage.hasMore ? lastPage.nextPage : undefined,
       enabled: !!user?._id,
@@ -64,24 +66,24 @@ const NotesList = () => {
     );
   }
 
-  if (notes?.length === 0) {
-    return <p>No Notes Created Yet.</p>;
-  }
-
   /* -------- RENDER -------- */
   return (
     <div>
-      <div className={styles.grid}>
-        {notes?.map((note) => (
-          <NoteCard
-            key={note._id}
-            id={note._id}
-            title={note.title}
-            date={note.updatedAt}
-            note={note.content}
-          />
-        ))}
-      </div>
+      {notes?.length === 0 ? (
+        <p className={styles.fallbackText}>No Notes Created Yet.</p>
+      ) : (
+        <div className={styles.grid}>
+          {notes?.map((note) => (
+            <NoteCard
+              key={note._id}
+              id={note._id}
+              title={note.title}
+              date={note.updatedAt}
+              note={note.content}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Trigger + Loader */}
       <div ref={bottomRef} />

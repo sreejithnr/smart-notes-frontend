@@ -19,3 +19,9 @@
   justify-content: center;
   padding: 16px;
 }
+
+.fallbackText {
+  text-align: center;
+  justify-content: center;
+  margin-top: 50%;
+}
