@@ -1,16 +1,18 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import Styles from "../common/SearchBox.module.css";
 import ClearIcon from "@mui/icons-material/Clear";
 
 function SearchBox({ onSearch, value }) {
+  const [inputValue, setInputValue] = useState(value || "");
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      onSearch(value.trim());
+      onSearch(inputValue.trim());
     }, 800);
 
     return () => clearTimeout(timer);
-  }, [value, onSearch]);
+  }, [inputValue, onSearch]);
 
   return (
     <div className={Styles.searchBox_wrappper}>
@@ -18,10 +20,10 @@ function SearchBox({ onSearch, value }) {
         type="text"
         className={Styles.search}
         placeholder="Search Here..."
-        value={value}
-        onChange={(e) => onSearch(e.target.value)}
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
       />
-      {value && <ClearIcon onClick={() => onSearch("")} />}
+      {inputValue && <ClearIcon onClick={() => setInputValue("")} />}
       <SearchIcon />
     </div>
   );

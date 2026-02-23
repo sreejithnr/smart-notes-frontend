@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axiosClient from "../../api/axiosClient";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import MuiInput from "../../components/common/MuiInput";
 import { Fab } from "@mui/material";
@@ -14,17 +14,16 @@ const NoteForm = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
   const noteId = location.state?.noteId;
-
   const queryClient = useQueryClient();
-  const infiniteData = queryClient.getQueryData(["notes", user._id]);
 
-  const noteToEdit = React.useMemo(() => {
-    if (!noteId || !infiniteData) return null;
-
-    return infiniteData.pages
-      .flatMap((page) => page.todos)
-      .find((n) => n._id === noteId);
-  }, [noteId, infiniteData]);
+  const { data: noteToEdit } = useQuery({
+    queryKey: ["note", noteId],
+    queryFn: async () => {
+      const res = await axiosClient.get(`/todo/${noteId}`);
+      return res.data;
+    },
+    enabled: !!noteId,
+  });
 
   useEffect(() => {
     if (noteToEdit) {
