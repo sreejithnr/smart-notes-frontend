@@ -23,16 +23,19 @@ export const ChatProvider = ({ children }) => {
     abortControllerRef.current = controller;
 
     try {
-      const response = await fetch("http://localhost:5000/api/ai/chat", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      const response = await fetch(
+        `${import.meta.env.VITE_API_BASE_URL}/ai/chat`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          credentials: "include",
+          body: JSON.stringify({ query: text }),
+          signal: controller.signal,
         },
-        credentials: "include",
-        body: JSON.stringify({ query: text }),
-        signal: controller.signal,
-      });
+      );
 
       const reader = response.body.getReader();
       const decoder = new TextDecoder("utf-8");
