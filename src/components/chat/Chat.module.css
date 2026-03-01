@@ -24,6 +24,8 @@
   word-wrap: break-word;
   position: relative;
   margin-top: 20px;
+  font-family: cursive;
+  font-size: 14px;
 }
 
 .userBubble {

@@ -1,10 +1,12 @@
-import React, { createContext, useContext, useState, useRef } from "react";
+import { createContext, useContext, useState, useRef } from "react";
+import axiosClient from "../api/axiosClient";
 
 const ChatContext = createContext();
 
 export const ChatProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [isStreaming, setIsStreaming] = useState(false);
+  const [conversationId, setConversationId] = useState(null);
   const abortControllerRef = useRef(null);
   const token = localStorage.getItem("token");
 
@@ -32,7 +34,7 @@ export const ChatProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
           credentials: "include",
-          body: JSON.stringify({ query: text }),
+          body: JSON.stringify({ query: text, conversationId }),
           signal: controller.signal,
         },
       );
@@ -71,9 +73,28 @@ export const ChatProvider = ({ children }) => {
     setIsStreaming(false);
   };
 
+  const getChats = async () => {
+    try {
+      const res = await axiosClient.get("ai/history");
+      if (res.data?.messages) {
+        setMessages(res.data.messages);
+        setConversationId(res.data.conversationId);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   return (
     <ChatContext.Provider
-      value={{ messages, sendMessage, isStreaming, stopStreaming }}
+      value={{
+        messages,
+        sendMessage,
+        isStreaming,
+        stopStreaming,
+        getChats,
+        conversationId,
+      }}
     >
       {children}
     </ChatContext.Provider>

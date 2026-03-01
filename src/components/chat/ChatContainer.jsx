@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Dialog, Slide, useMediaQuery } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
 import ChatInput from "./ChatInput";
 import CancelIcon from "@mui/icons-material/Cancel";
 import ChatArea from "./ChatArea";
+import { useChat } from "../../context/ChatContext";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -12,6 +13,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const ChatContainer = ({ open, onClose }) => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  const { getChats } = useChat();
+
+  useEffect(() => {
+    if (open) {
+      getChats();
+    }
+  }, [open]);
 
   return (
     <Dialog
