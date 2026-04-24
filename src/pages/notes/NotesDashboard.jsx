@@ -8,13 +8,14 @@ import MicIcon from "@mui/icons-material/Mic";
 import EditIcon from "@mui/icons-material/Edit";
 import SearchBox from "../../components/common/SearchBox";
 import { useState } from "react";
+import VoiceNoteDialog from "../../components/voice/VoiceNoteDialog";
 
 const NotesDashboard = () => {
   const isMobile = useMediaQuery("(max-width:600px)");
   const isNoteOpen = useMatch("/app/notes/:id");
   const location = useLocation();
   const navigate = useNavigate();
-
+  const [showVoice, setShowVoice] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const shouldShowList = !isMobile || !isNoteOpen;
 
@@ -50,9 +51,14 @@ const NotesDashboard = () => {
             }
           />
 
-          <SpeedDialAction icon={<MicIcon />} />
+          <SpeedDialAction
+            icon={<MicIcon />}
+            onClick={() => setShowVoice(true)}
+          />
         </SpeedDial>
       </div>
+
+      <VoiceNoteDialog open={showVoice} onClose={() => setShowVoice(false)} />
     </>
   );
 };

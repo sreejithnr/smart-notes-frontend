@@ -13,6 +13,8 @@ import { AuthContext } from "../../context/AuthContext";
 const NoteForm = () => {
   const { user } = useContext(AuthContext);
   const location = useLocation();
+  const { title: prefilledTitle, content: prefilledContent } =
+    location.state || {};
   const noteId = location.state?.noteId;
   const queryClient = useQueryClient();
 
@@ -30,6 +32,15 @@ const NoteForm = () => {
       setFormData({ title: noteToEdit.title, content: noteToEdit.content });
     }
   }, [noteToEdit]);
+
+  useEffect(() => {
+    if (prefilledTitle || prefilledContent) {
+      setFormData({
+        title: prefilledTitle || "",
+        content: prefilledContent || "",
+      });
+    }
+  }, [prefilledTitle, prefilledContent]);
 
   const [formData, setFormData] = useState({
     title: "",

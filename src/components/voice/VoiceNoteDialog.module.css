@@ -1,0 +1,12 @@
+.voice_dialog_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+}
+
+.cancel_area {
+  padding-right: 10px;
+  text-align: right;
+}
